@@ -6,14 +6,14 @@ public class Company
 {
     public int Id { get; set; }
     [Required]
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty; // Fix CS8618
     [Required]
-    public string Email { get; set; }
+    public string Email { get; set; } = string.Empty; // Fix CS8618
     [Required]
     [StringLength(11, MinimumLength = 11, ErrorMessage = "El RUC debe tener exactamente 11 dígitos.")]
-    public string Ruc { get; set; }
+    public string Ruc { get; set; } = string.Empty; // Fix CS8618
     [Required]
-    public string City { get; set; }
+    public string City { get; set; } = string.Empty; // Fix CS8618
 
     // Constructores
     public Company(int id, string name, string email, string ruc, string city)

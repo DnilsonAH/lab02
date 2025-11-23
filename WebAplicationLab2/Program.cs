@@ -35,7 +35,6 @@ if (app.Environment.IsDevelopment())
 }
 
 // HTTPS y rutas
-app.UseHttpsRedirection();
 app.MapControllers();                    //Mapear controladores
 
 app.Run();

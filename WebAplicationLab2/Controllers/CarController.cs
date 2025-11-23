@@ -106,23 +106,31 @@ public class CarController : ControllerBase
         if (car == null)
             return NotFound(new { mensaje = $"No se encontró ningún carro con propietario ID {id}" });
 
+        // Corrección de Warnings CS8601 usando ?? string.Empty
         if (updates.TryGetProperty("Plate", out var plate))
-            car.Plate = plate.GetString();
+            car.Plate = plate.GetString() ?? string.Empty;
+            
         if (updates.TryGetProperty("Sede", out var sede))
-            car.Sede = sede.GetString();
+            car.Sede = sede.GetString() ?? string.Empty;
+            
         if (updates.TryGetProperty("OwnerType", out var ownerType))
-            car.OwnerType = ownerType.GetString();
+            car.OwnerType = ownerType.GetString() ?? string.Empty;
+
         if (updates.TryGetProperty("Owner", out var owner))
         {
             if (car.OwnerType == "person")
             {
                 var person = JsonSerializer.Deserialize<Person>(owner.GetRawText());
-                car.Owner = JsonSerializer.SerializeToElement(person);
+                // Aseguramos que no se asigne nulo
+                if (person != null) 
+                    car.Owner = JsonSerializer.SerializeToElement(person);
             }
             else if (car.OwnerType == "company")
             {
                 var company = JsonSerializer.Deserialize<Company>(owner.GetRawText());
-                car.Owner = JsonSerializer.SerializeToElement(company);
+                // Aseguramos que no se asigne nulo
+                if (company != null)
+                    car.Owner = JsonSerializer.SerializeToElement(company);
             }
             else
             {
